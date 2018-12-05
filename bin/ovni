@@ -15,22 +15,46 @@ exec('ng version', (error, stdout) => {
     if (/Angular CLI:\s*(\d+)\./i.test(stdout)) {
         angularCliVersion = parseInt(RegExp.$1);
     }
+
     if (angularCliVersion < 1) {
         console.log('> Install @angular/cli');
 
         shell.exec('npm install --global @angular/cli');
     }
+
     if (command === 'new') {
         shell.exec('ng new ' + process.argv[3]);
         shell.cd(process.argv[3]);
-        fs.copyFile(__dirname + '/../utils/polyfills.ts', 'src/polyfills.ts', (err) => {
+        [
+            'proxy.conf.js',
+            'src/polyfills.ts',
+            'src/app/app.module.ts',
+        ].forEach(file => {
+            fs.copyFile(__dirname + '/../bootstrap/' + file, file, (err) => {
+                if (err) {
+                    throw err;
+                }
+
+                console.log(file + ' initialized');
+            });
+        });
+        fs.readFile('package.json', (err, contents) => {
             if (err) {
                 throw err;
             }
 
-            console.log('polyfills.ts initialized');
+            fs.writeFile('package.json', (contents + '')
+                .replace(/"start": "ng serve"/g, '"start": "ng serve --open --proxy-config=proxy.conf.js --port=1138"')
+                , (err) => {
+                if (err) {
+                    throw err;
+                }
+
+                console.log('package.json updated');
+            });
         });
     }
+
     if (command === 'new' || command === 'install') {
         shell.exec('npm install --save ' + [
             // Install framework
