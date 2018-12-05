@@ -23,7 +23,7 @@ exec('ng version', (error, stdout) => {
     if (command === 'new') {
         shell.exec('ng new ' + process.argv[3]);
         shell.exec('cd ' + process.argv[3]);
-        fs.copyFile(__dirname + '/../polyfills.ts', 'polyfills.ts', (err) => {
+        fs.copyFile(__dirname + '/../utils/polyfills.ts', 'polyfills.ts', (err) => {
             if (err) {
                 throw err;
             }
