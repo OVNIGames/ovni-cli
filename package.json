@@ -1,0 +1,15 @@
+{
+  "name": "@ovnigames/cli",
+  "version": "0.0.1",
+  "scripts": {
+    "patch-release": "npm version patch && npm publish && git push --follow-tags",
+    "minor-release": "npm version minor && npm publish && git push --follow-tags",
+    "major-release": "npm version major && npm publish && git push --follow-tags"
+  },
+  "bin": {
+    "ovni": "./bin/ovni"
+  },
+  "dependencies": {
+    "shelljs": "^0.8.2"
+  }
+}

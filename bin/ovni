@@ -1,0 +1,42 @@
+#! /usr/bin/env node
+'use strict';
+
+const {exec} = require('child_process');
+const shell = require('shelljs');
+const command = process.argv[2] || 'install';
+let angularCliVersion = 0;
+
+if (command === 'new' && !process.argv[3]) {
+    throw new Error('`ovni new` command needs a third parameter for the project name.');
+}
+
+exec('ng version', (error, stdout) => {
+    if (/Angular CLI:\s*(\d+)\./i.test(stdout)) {
+        angularCliVersion = parseInt(RegExp.$1);
+    }
+    if (angularCliVersion < 1) {
+        console.log('> Install @angular/cli');
+
+        shell.exec('npm install --global @angular/cli');
+    }
+    if (command === 'new') {
+        shell.exec('ng new ' + process.argv[3]);
+        shell.exec('cd ' + process.argv[3]);
+    }
+    if (command === 'new' || command === 'install') {
+        shell.exec('npm install --save ' + [
+            // Install framework
+            '@ovnigames/js-dev-tools',
+            // Install peer dependencies
+            '@angular/material@^7.1.0',
+            'apollo-angular@^1.5.0',
+            'apollo-angular-link-http@^1.4.0',
+            'apollo-cache-inmemory@^1.3.11',
+            'apollo-client@^2.4.7',
+            'apollo-link@^1.2.4',
+            'graphql@^0.13.2',
+            'graphql-tag@^2.10.0',
+            'socket.io-client@^2.2.0',
+        ].join(' '));
+    }
+});
