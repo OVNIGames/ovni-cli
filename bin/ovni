@@ -28,6 +28,7 @@ exec('ng version', (error, stdout) => {
         [
             'proxy.conf.js',
             'src/polyfills.ts',
+            'src/style.scss',
             'src/app/app.module.ts',
         ].forEach(file => {
             fs.copyFile(__dirname + '/../bootstrap/' + file, file, (err) => {
@@ -38,21 +39,45 @@ exec('ng version', (error, stdout) => {
                 console.log(file + ' initialized');
             });
         });
-        fs.readFile('package.json', (err, contents) => {
-            if (err) {
-                throw err;
-            }
-
-            fs.writeFile('package.json', (contents + '')
-                .replace(/"start": "ng serve"/g, '"start": "ng serve --open --proxy-config=proxy.conf.js --port=1138"')
-                , (err) => {
+        [
+            'src/style.css',
+        ].forEach(file => {
+            fs.unlink(__dirname + '/../bootstrap/' + file, (err) => {
                 if (err) {
                     throw err;
                 }
 
-                console.log('package.json updated');
+                console.log(file + ' removed');
             });
         });
+        const replacements = {
+            'package.json': [
+                [/"start": "ng serve"/g, '"start": "ng serve --open --proxy-config=proxy.conf.js --port=1138"'],
+            ],
+            'angular.json': [
+                [/src\/styles\.css/g, 'src/styles.scss'],
+            ],
+        };
+        for (let file in replacements) {
+            fs.readFile(file, (err, contents) => {
+                if (err) {
+                    throw err;
+                }
+
+                contents += '';
+                replacements[file].forEach(replacement => {
+                    contents = contents.replace(replacement[0], replacement[1]);
+                });
+
+                fs.writeFile(file, contents, (err) => {
+                    if (err) {
+                        throw err;
+                    }
+
+                    console.log(file + ' updated');
+                });
+            });
+        }
     }
 
     if (command === 'new' || command === 'install') {
