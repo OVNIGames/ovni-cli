@@ -1,6 +1,7 @@
 #! /usr/bin/env node
 'use strict';
 
+const fs = require('fs');
 const {exec} = require('child_process');
 const shell = require('shelljs');
 const command = process.argv[2] || 'install';
@@ -22,6 +23,13 @@ exec('ng version', (error, stdout) => {
     if (command === 'new') {
         shell.exec('ng new ' + process.argv[3]);
         shell.exec('cd ' + process.argv[3]);
+        fs.copyFile(__dirname + '/../polyfills.ts', 'polyfills.ts', (err) => {
+            if (err) {
+                throw err;
+            }
+
+            console.log('polyfills.ts initialized');
+        });
     }
     if (command === 'new' || command === 'install') {
         shell.exec('npm install --save ' + [
