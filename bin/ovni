@@ -29,6 +29,7 @@ exec('ng version', (error, stdout) => {
             '@ovnigames/js-dev-tools',
             // Install peer dependencies
             '@angular/material@^7.1.0',
+            '@angular/cdk@^7.1.0',
             'apollo-angular@^1.5.0',
             'apollo-angular-link-http@^1.4.0',
             'apollo-cache-inmemory@^1.3.11',
