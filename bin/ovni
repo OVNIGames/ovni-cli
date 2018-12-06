@@ -43,11 +43,9 @@ exec('ng version', (error, stdout) => {
             'src/styles.css',
         ].forEach(file => {
             fs.unlink(__dirname + '/../bootstrap/' + file, (err) => {
-                if (err) {
-                    throw err;
+                if (!err) {
+                    console.log(file + ' removed');
                 }
-
-                console.log(file + ' removed');
             });
         });
         const replacements = {
