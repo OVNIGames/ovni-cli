@@ -28,7 +28,7 @@ exec('ng version', (error, stdout) => {
         [
             'proxy.conf.js',
             'src/polyfills.ts',
-            'src/style.scss',
+            'src/styles.scss',
             'src/app/app.module.ts',
         ].forEach(file => {
             fs.copyFile(__dirname + '/../bootstrap/' + file, file, (err) => {
@@ -40,7 +40,7 @@ exec('ng version', (error, stdout) => {
             });
         });
         [
-            'src/style.css',
+            'src/styles.css',
         ].forEach(file => {
             fs.unlink(__dirname + '/../bootstrap/' + file, (err) => {
                 if (err) {
