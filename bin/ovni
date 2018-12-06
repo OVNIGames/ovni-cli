@@ -83,7 +83,7 @@ exec('ng version', (error, stdout) => {
     if (command === 'new' || command === 'install') {
         shell.exec('npm install --save ' + [
             // Install framework
-            '@ovnigames/js-dev-tools',
+            '@ovnigames/framework',
             // Install peer dependencies
             '@angular/material@^7.1.0',
             '@angular/cdk@^7.1.0',
