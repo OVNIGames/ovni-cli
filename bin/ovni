@@ -42,7 +42,7 @@ exec('ng version', (error, stdout) => {
         [
             'src/styles.css',
         ].forEach(file => {
-            fs.unlink(__dirname + '/../bootstrap/' + file, (err) => {
+            fs.unlink(file, (err) => {
                 if (!err) {
                     console.log(file + ' removed');
                 }
@@ -76,6 +76,7 @@ exec('ng version', (error, stdout) => {
                 });
             });
         }
+        shell.exec('git add --all');
     }
 
     if (command === 'new' || command === 'install') {

@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { GraphQLModule } from 'ngx-mat-ovni-games';
+import { GraphQLModule } from '@ovnigames/framework';
 import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
