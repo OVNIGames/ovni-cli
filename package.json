@@ -1,6 +1,6 @@
 {
   "name": "@ovnigames/cli",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "Cli tool for @ovnigames framework",
   "scripts": {
     "patch-release": "npm version patch && npm publish && git push --follow-tags",
